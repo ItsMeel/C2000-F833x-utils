@@ -1,0 +1,50 @@
+\doxysection{Utils\+\_\+\+Registers.\+h}
+\hypertarget{_utils___registers_8h_source}{}\label{_utils___registers_8h_source}\index{src/Utils\_Registers.h@{src/Utils\_Registers.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Utils\_Registers.h}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Created\ on:\ 2/02/2024}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ \ \ \ \ Author:\ 000428315}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ UTILS\_REGISTERS\_H\_}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ UTILS\_REGISTERS\_H\_}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}DSP28x\_Project.h"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{volatile}\ Uint32\ readRegister(\textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress,\ Uint32\ Mask)\{}
+\DoxyCodeLine{00014\ \ \ \ \ \textcolor{keywordflow}{return}\ *RegisterAddress\ \&\ Mask;}
+\DoxyCodeLine{00015\ \}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keywordtype}{int}\ writeRegister(\textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress,\ Uint32\ Mask,\ Uint32\ Value,\ Uint32\ Protected)\{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordflow}{if}\ (Protected)\{}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ EALLOW;}
+\DoxyCodeLine{00020\ \ \ \ \ \}}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00022\ \ \ \ \ *RegisterAddress\ =\ (*RegisterAddress\ \&\ \string~Mask)\ |\ (Value\ \&\ Mask);}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordflow}{if}\ (Protected)\{}
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \ \ EDIS;}
+\DoxyCodeLine{00026\ \ \ \ \ \}}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00028\ \}}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{keywordtype}{int}\ toggleRegister(\textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress,\ Uint32\ Mask,\ Uint32\ Protected)\{}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordflow}{if}\ (Protected)\{}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ EALLOW;}
+\DoxyCodeLine{00033\ \ \ \ \ \}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \ \ \ \ *RegisterAddress\ =\ (*RegisterAddress\ \&\ \string~Mask)\ |\ (\string~(*RegisterAddress)\ \&\ Mask);}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}\ (Protected)\{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ EDIS;}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00041\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ UTILS\_REGISTERS\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

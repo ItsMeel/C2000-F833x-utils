@@ -1,0 +1,322 @@
+\doxysection{Utils\+\_\+\+GPIO.\+h}
+\hypertarget{_utils___g_p_i_o_8h_source}{}\label{_utils___g_p_i_o_8h_source}\index{src/Utils\_GPIO.h@{src/Utils\_GPIO.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ Utils\_GPIO.h}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Created\ on:\ 21/11/2023}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ \ \ \ \ Author:\ Emmanuel}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ UTILS\_GPIO\_H\_}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ UTILS\_GPIO\_H\_}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}DSP28x\_Project.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}Utils\_Registers.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#define\ GPIO\_HIGH\ 1}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#define\ GPIO\_LOW\ 0}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#define\ GPIO\_INPUT\ 0}}
+\DoxyCodeLine{00017\ \textcolor{preprocessor}{\#define\ GPIO\_OUTPUT\ 1}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#define\ GPIO\_PULLUP\_ENABLE\ 0}}
+\DoxyCodeLine{00019\ \textcolor{preprocessor}{\#define\ GPIO\_PULLUP\_DISABLE\ 1}}
+\DoxyCodeLine{00020\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_0\ 0}}
+\DoxyCodeLine{00021\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_1\ 1}}
+\DoxyCodeLine{00022\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_2\ 2}}
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_3\ 3}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_SYNC\ 0}}
+\DoxyCodeLine{00025\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_3SAMPLES\ 1}}
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_6SAMPLES\ 2}}
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_ASYNC\ 3}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \textcolor{preprocessor}{\#define\ pinToMux(pin)\ ((Uint32)\ pin/16)}}
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#define\ pinToQual(pin)\ ((Uint32)\ pin/8)}}
+\DoxyCodeLine{00031\ \textcolor{preprocessor}{\#define\ pinToMaskOneBit(pin,\ value)\ ((Uint32)\ (value\ <<\ (pin\ \%\ 32)))}}
+\DoxyCodeLine{00032\ \textcolor{preprocessor}{\#define\ pinToMaskTwoBits(pin,\ value)\ ((Uint32)\ (value\ <<\ (pin\ \%\ 16)*2))}}
+\DoxyCodeLine{00033\ \textcolor{preprocessor}{\#define\ qualToMaskFourBits(qual,\ value)\ ((Uint32)\ (value\ <<\ (qual\ \%\ 4)*8))}}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00035\ \textcolor{keyword}{volatile}\ Uint32*\ qualToCtrlRegister(Uint32\ Qual)\{}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordflow}{if}(Qual\ <=\ 3)\{}
+\DoxyCodeLine{00038\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPACTRL.all;}
+\DoxyCodeLine{00039\ \ \ \ \ \}}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Qual\ >=\ 4\ \&\&\ Qual\ <=\ 7)\{}
+\DoxyCodeLine{00041\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBCTRL.all;}
+\DoxyCodeLine{00042\ \ \ \ \ \}}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00045\ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \textcolor{keyword}{volatile}\ Uint32*\ pinToQSelRegister(Uint32\ pin)\{}
+\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00049\ \ \ \ \ Uint32\ Mux\ =\ pinToMux(pin);}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordflow}{switch}\ (Mux)\{}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAQSEL1.all;}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAQSEL2.all;}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00058\ }
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBQSEL1.all;}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00064\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBQSEL2.all;}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00066\ \ \ \ \ \}}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00069\ \}}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \textcolor{keyword}{volatile}\ Uint32*\ pinToMuxRegister(Uint32\ pin)\{}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00073\ \ \ \ \ Uint32\ Mux\ =\ pinToMux(pin);}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{switch}\ (Mux)\{}
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAMUX1.all;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAMUX2.all;}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBMUX1.all;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBMUX2.all;}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00090\ }
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCMUX1.all;}
+\DoxyCodeLine{00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00095\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCMUX2.all;}
+\DoxyCodeLine{00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00098\ \ \ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00100\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00101\ \}}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \textcolor{keyword}{volatile}\ Uint32*\ pinToDirRegister(Uint32\ pin)\{}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00105\ \ \ \ \ Uint32\ Mux\ =\ pinToMux(pin);}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPADIR.all;}
+\DoxyCodeLine{00108\ \ \ \ \ \}}
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBDIR.all;}
+\DoxyCodeLine{00111\ \ \ \ \ \}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCDIR.all;}
+\DoxyCodeLine{00114\ \ \ \ \ \}}
+\DoxyCodeLine{00115\ }
+\DoxyCodeLine{00116\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00117\ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00119\ \textcolor{keyword}{volatile}\ Uint32*\ pinToPullUpResistorRegister(Uint32\ pin)\{}
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00121\ \ \ \ \ Uint32\ Mux\ =\ pinToMux(pin);}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAPUD.all;}
+\DoxyCodeLine{00124\ \ \ \ \ \}}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBPUD.all;}
+\DoxyCodeLine{00127\ \ \ \ \ \}}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCPUD.all;}
+\DoxyCodeLine{00130\ \ \ \ \ \}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00133\ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00135\ \textcolor{keyword}{volatile}\ Uint32*\ pinToDataRegister(Uint32\ pin)\{}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00137\ \ \ \ \ Uint32\ Mux\ =\ pinToMux(pin);}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPADAT.all;}
+\DoxyCodeLine{00140\ \ \ \ \ \}}
+\DoxyCodeLine{00141\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00142\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPBDAT.all;}
+\DoxyCodeLine{00143\ \ \ \ \ \}}
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPCDAT.all;}
+\DoxyCodeLine{00146\ \ \ \ \ \}}
+\DoxyCodeLine{00147\ }
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00149\ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00151\ \textcolor{keyword}{volatile}\ Uint32*\ pinToToggleRegister(Uint32\ pin)\{}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00153\ \ \ \ \ Uint32\ Mux\ =\ pinToMux(pin);}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPATOGGLE.all;}
+\DoxyCodeLine{00156\ \ \ \ \ \}}
+\DoxyCodeLine{00157\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPBTOGGLE.all;}
+\DoxyCodeLine{00159\ \ \ \ \ \}}
+\DoxyCodeLine{00160\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPCTOGGLE.all;}
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ }
+\DoxyCodeLine{00164\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00165\ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00169\ \textcolor{keywordtype}{int}\ GPIOSetQualSamplingPeriod(Uint32\ Qual,\ Uint32\ Value)\{}
+\DoxyCodeLine{00170\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0xFF)\ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00171\ }
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ qualToCtrlRegister(Qual);}
+\DoxyCodeLine{00173\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ writeRegister(RegisterAddress,\ qualToMaskFourBits(Qual,\ 0xFF),\ qualToMaskFourBits(Qual,\ Value),\ 1);}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00178\ \}}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00180\ \textcolor{keywordtype}{int}\ GPIOSetPinQualificationSelect(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00181\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b11)\{}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00183\ \ \ \ \ \}}
+\DoxyCodeLine{00184\ }
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ pinToQSelRegister(Pin);}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00188\ \ \ \ \ \}}
+\DoxyCodeLine{00189\ }
+\DoxyCodeLine{00190\ \ \ \ \ writeRegister(RegisterAddress,\ pinToMaskTwoBits(Pin,\ 0b11),\ pinToMaskTwoBits(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00193\ \}}
+\DoxyCodeLine{00194\ }
+\DoxyCodeLine{00195\ \textcolor{keywordtype}{int}\ GPIOSetPinMux(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00196\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b11)\{}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00198\ \ \ \ \ \}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00200\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ pinToMuxRegister(Pin);}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00203\ \ \ \ \ \}}
+\DoxyCodeLine{00204\ }
+\DoxyCodeLine{00205\ \ \ \ \ writeRegister(RegisterAddress,\ pinToMaskTwoBits(Pin,\ 0b11),\ pinToMaskTwoBits(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00207\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00208\ \}}
+\DoxyCodeLine{00209\ }
+\DoxyCodeLine{00210\ \textcolor{keywordtype}{int}\ GPIOSetPinDirection(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b1)\{}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00213\ \ \ \ \ \}}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ pinToDirRegister(Pin);}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00218\ \ \ \ \ \}}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ writeRegister(RegisterAddress,\ pinToMaskOneBit(Pin,\ 0b1),\ pinToMaskOneBit(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00221\ }
+\DoxyCodeLine{00222\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00223\ \}}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \textcolor{keywordtype}{int}\ GPIOSetPinPullUpResistor(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00226\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b1)\{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00228\ \ \ \ \ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00230\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ pinToPullUpResistorRegister(Pin);}
+\DoxyCodeLine{00231\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00233\ \ \ \ \ \}}
+\DoxyCodeLine{00234\ }
+\DoxyCodeLine{00235\ \ \ \ \ writeRegister(RegisterAddress,\ pinToMaskOneBit(Pin,\ 0b1),\ pinToMaskOneBit(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00238\ \}}
+\DoxyCodeLine{00239\ }
+\DoxyCodeLine{00240\ \textcolor{keywordtype}{int}\ GPIOSetValue(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00241\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b1)\{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00243\ \ \ \ \ \}}
+\DoxyCodeLine{00244\ }
+\DoxyCodeLine{00245\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ pinToDataRegister(Pin);}
+\DoxyCodeLine{00246\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00248\ \ \ \ \ \}}
+\DoxyCodeLine{00249\ }
+\DoxyCodeLine{00250\ \ \ \ \ writeRegister(RegisterAddress,\ pinToMaskOneBit(Pin,\ 0b1),\ pinToMaskOneBit(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00253\ \}}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \textcolor{keywordtype}{int}\ GPIOGetValue(Uint32\ Pin)\{}
+\DoxyCodeLine{00256\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ pinToDataRegister(Pin);}
+\DoxyCodeLine{00257\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00259\ \ \ \ \ \}}
+\DoxyCodeLine{00260\ }
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordflow}{if}(readRegister(RegisterAddress,\ pinToMaskOneBit(Pin,\ 0b1)))\{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00263\ \ \ \ \ \}}
+\DoxyCodeLine{00264\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00266\ \ \ \ \ \}}
+\DoxyCodeLine{00267\ \}}
+\DoxyCodeLine{00268\ }
+\DoxyCodeLine{00269\ \textcolor{keywordtype}{int}\ GPIOToggle(Uint32\ Pin)\{}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ pinToToggleRegister(Pin);}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00273\ \ \ \ \ \}}
+\DoxyCodeLine{00274\ }
+\DoxyCodeLine{00275\ \ \ \ \ writeRegister(RegisterAddress,\ pinToMaskOneBit(Pin,\ 0b1),\ 0xFFFFFFFF,\ 1);}
+\DoxyCodeLine{00276\ }
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00278\ \}}
+\DoxyCodeLine{00279\ }
+\DoxyCodeLine{00280\ \textcolor{keywordtype}{int}\ GPIOSetup(Uint32\ Pin,\ Uint32\ Peripheral,\ Uint32\ Direction,\ Uint32\ PullUpResistor,\ Uint32\ QualSelect,\ Uint32\ SamplingPeriod)\{}
+\DoxyCodeLine{00281\ \ \ \ \ \textcolor{keywordtype}{int}\ error\ =\ 0;}
+\DoxyCodeLine{00282\ \ \ \ \ Uint32\ Qual\ =\ pinToQual(Pin);}
+\DoxyCodeLine{00283\ }
+\DoxyCodeLine{00284\ \ \ \ \ error\ =\ GPIOSetPinMux(Pin,\ Peripheral);}
+\DoxyCodeLine{00285\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00287\ \ \ \ \ \}}
+\DoxyCodeLine{00288\ }
+\DoxyCodeLine{00289\ \ \ \ \ error\ =\ GPIOSetPinDirection(Pin,\ Direction);}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00292\ \ \ \ \ \}}
+\DoxyCodeLine{00293\ }
+\DoxyCodeLine{00294\ \ \ \ \ error\ =\ GPIOSetPinPullUpResistor(Pin,\ PullUpResistor);}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00297\ \ \ \ \ \}}
+\DoxyCodeLine{00298\ }
+\DoxyCodeLine{00299\ \ \ \ \ error\ =\ GPIOSetPinQualificationSelect(Pin,\ QualSelect);}
+\DoxyCodeLine{00300\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00302\ \ \ \ \ \}}
+\DoxyCodeLine{00303\ }
+\DoxyCodeLine{00304\ \ \ \ \ error\ =\ GPIOSetQualSamplingPeriod(Qual,\ SamplingPeriod);}
+\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00307\ \ \ \ \ \}}
+\DoxyCodeLine{00308\ }
+\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00310\ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00312\ \textcolor{keywordtype}{int}\ GPIOSetupSimple(Uint32\ Pin,\ Uint32\ Direction)\{}
+\DoxyCodeLine{00313\ \ \ \ \ \textcolor{keywordflow}{return}\ GPIOSetup(Pin,\ GPIO\_PERIPHERAL\_0,\ Direction,\ GPIO\_PULLUP\_DISABLE,\ GPIO\_QUALSEL\_SYNC,\ 0);}
+\DoxyCodeLine{00314\ \}}
+\DoxyCodeLine{00315\ }
+\DoxyCodeLine{00316\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ UTILS\_GPIO\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}
