@@ -13,15 +13,5 @@ var searchData=
   ['gpio_5fqualsel_5f3samples_10',['GPIO_QUALSEL_3SAMPLES',['../_utils___g_p_i_o_8h.html#ad14b8a496ac003d81d7c93d6522439f4',1,'Utils_GPIO.h']]],
   ['gpio_5fqualsel_5f6samples_11',['GPIO_QUALSEL_6SAMPLES',['../_utils___g_p_i_o_8h.html#a9922ad9d1afd8c5677e31a5de107653a',1,'Utils_GPIO.h']]],
   ['gpio_5fqualsel_5fasync_12',['GPIO_QUALSEL_ASYNC',['../_utils___g_p_i_o_8h.html#a512a6b2edd71ebbe19e8a4357077e232',1,'Utils_GPIO.h']]],
-  ['gpio_5fqualsel_5fsync_13',['GPIO_QUALSEL_SYNC',['../_utils___g_p_i_o_8h.html#acd14bdaf9df3bb5743270bb156d1be72',1,'Utils_GPIO.h']]],
-  ['gpiogetvalue_14',['GPIOGetValue',['../_utils___g_p_i_o_8h.html#a1a07944a52b0db6b3db7f524f2438203',1,'Utils_GPIO.h']]],
-  ['gpiosetpindirection_15',['GPIOSetPinDirection',['../_utils___g_p_i_o_8h.html#a7b5a0e3ceeae6d96ab8afd03d6b4d6b8',1,'Utils_GPIO.h']]],
-  ['gpiosetpinmux_16',['GPIOSetPinMux',['../_utils___g_p_i_o_8h.html#ae9e52b6200214c140fb3ea087b65af7b',1,'Utils_GPIO.h']]],
-  ['gpiosetpinpullupresistor_17',['GPIOSetPinPullUpResistor',['../_utils___g_p_i_o_8h.html#a8db28b804649df76599820b94ead8b75',1,'Utils_GPIO.h']]],
-  ['gpiosetpinqualificationselect_18',['GPIOSetPinQualificationSelect',['../_utils___g_p_i_o_8h.html#a65e5e6f9b5ce6489ae1828a105295dc9',1,'Utils_GPIO.h']]],
-  ['gpiosetqualsamplingperiod_19',['GPIOSetQualSamplingPeriod',['../_utils___g_p_i_o_8h.html#a2f60f1087616eb0aa040951f357f933a',1,'Utils_GPIO.h']]],
-  ['gpiosetup_20',['GPIOSetup',['../_utils___g_p_i_o_8h.html#a46ea5db1c944debd70a04908b6bd77a9',1,'Utils_GPIO.h']]],
-  ['gpiosetupsimple_21',['GPIOSetupSimple',['../_utils___g_p_i_o_8h.html#a3fe03eb91c297b16dafc4654417fd1f7',1,'Utils_GPIO.h']]],
-  ['gpiosetvalue_22',['GPIOSetValue',['../_utils___g_p_i_o_8h.html#ab36b7d5abb8ef96c84a64e112f3198d4',1,'Utils_GPIO.h']]],
-  ['gpiotoggle_23',['GPIOToggle',['../_utils___g_p_i_o_8h.html#a54c99a64d848f5cc84469fc1bac08b34',1,'Utils_GPIO.h']]]
+  ['gpio_5fqualsel_5fsync_13',['GPIO_QUALSEL_SYNC',['../_utils___g_p_i_o_8h.html#acd14bdaf9df3bb5743270bb156d1be72',1,'Utils_GPIO.h']]]
 ];

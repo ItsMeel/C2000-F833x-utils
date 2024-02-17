@@ -1,0 +1,605 @@
+\doxysection{src/\+Utils\+\_\+\+GPIO.h File Reference}
+\hypertarget{_utils___g_p_i_o_8h}{}\label{_utils___g_p_i_o_8h}\index{src/Utils\_GPIO.h@{src/Utils\_GPIO.h}}
+
+
+This file contains all functions to manipulate GPIOs.  
+
+
+{\ttfamily \#include "{}DSP28x\+\_\+\+Project.\+h"{}}\newline
+{\ttfamily \#include "{}Utils\+\_\+\+Registers.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{_utils___g_p_i_o_8h_a72520b0ab0d18377eb6a481029d0b01e}\label{_utils___g_p_i_o_8h_a72520b0ab0d18377eb6a481029d0b01e} 
+\#define {\bfseries GPIO\+\_\+\+HIGH}~1
+\begin{DoxyCompactList}\small\item\em Represents high GPIO state. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a088e681cae6659dfd317afdf4d61e302}\label{_utils___g_p_i_o_8h_a088e681cae6659dfd317afdf4d61e302} 
+\#define {\bfseries GPIO\+\_\+\+LOW}~0
+\begin{DoxyCompactList}\small\item\em Represents low GPIO state. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a7be6a0cc9aa65da1d4ee5751b4085853}\label{_utils___g_p_i_o_8h_a7be6a0cc9aa65da1d4ee5751b4085853} 
+\#define {\bfseries GPIO\+\_\+\+INPUT}~0
+\begin{DoxyCompactList}\small\item\em Represents input GPIO direction. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a0db9fe8a278e6ab7c5c6f14fe58e5eb1}\label{_utils___g_p_i_o_8h_a0db9fe8a278e6ab7c5c6f14fe58e5eb1} 
+\#define {\bfseries GPIO\+\_\+\+OUTPUT}~1
+\begin{DoxyCompactList}\small\item\em Represents output GPIO direction. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a1a52d184d8942584057fb0af24aee19c}\label{_utils___g_p_i_o_8h_a1a52d184d8942584057fb0af24aee19c} 
+\#define {\bfseries GPIO\+\_\+\+PULLUP\+\_\+\+ENABLE}~0
+\begin{DoxyCompactList}\small\item\em Represents enabling GPIO pullup resistor. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a95a8f68268886248f6a40a99457133b2}\label{_utils___g_p_i_o_8h_a95a8f68268886248f6a40a99457133b2} 
+\#define {\bfseries GPIO\+\_\+\+PULLUP\+\_\+\+DISABLE}~1
+\begin{DoxyCompactList}\small\item\em Represents disabling GPIO pullup resistor. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_ab5670ba1dff6b60616a763546b0220b0}\label{_utils___g_p_i_o_8h_ab5670ba1dff6b60616a763546b0220b0} 
+\#define {\bfseries GPIO\+\_\+\+PERIPHERAL\+\_\+0}~0
+\begin{DoxyCompactList}\small\item\em Represents the first GPIO peripheral. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a0f8e4e2aff1e4b9917f9e800ce613021}\label{_utils___g_p_i_o_8h_a0f8e4e2aff1e4b9917f9e800ce613021} 
+\#define {\bfseries GPIO\+\_\+\+PERIPHERAL\+\_\+1}~1
+\begin{DoxyCompactList}\small\item\em Represents the second GPIO peripheral. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a4de595b804ed334fa46a155a521225e0}\label{_utils___g_p_i_o_8h_a4de595b804ed334fa46a155a521225e0} 
+\#define {\bfseries GPIO\+\_\+\+PERIPHERAL\+\_\+2}~2
+\begin{DoxyCompactList}\small\item\em Represents the third GPIO peripheral. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a90fef06d6270a83332b3129381db1bb9}\label{_utils___g_p_i_o_8h_a90fef06d6270a83332b3129381db1bb9} 
+\#define {\bfseries GPIO\+\_\+\+PERIPHERAL\+\_\+3}~3
+\begin{DoxyCompactList}\small\item\em Represents the fourth GPIO peripheral. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_acd14bdaf9df3bb5743270bb156d1be72}\label{_utils___g_p_i_o_8h_acd14bdaf9df3bb5743270bb156d1be72} 
+\#define {\bfseries GPIO\+\_\+\+QUALSEL\+\_\+\+SYNC}~0
+\begin{DoxyCompactList}\small\item\em Syncronize GPIO with SYSCLKOUT. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_ad14b8a496ac003d81d7c93d6522439f4}\label{_utils___g_p_i_o_8h_ad14b8a496ac003d81d7c93d6522439f4} 
+\#define {\bfseries GPIO\+\_\+\+QUALSEL\+\_\+3\+SAMPLES}~1
+\begin{DoxyCompactList}\small\item\em GPIO qualification using 3 samples. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a9922ad9d1afd8c5677e31a5de107653a}\label{_utils___g_p_i_o_8h_a9922ad9d1afd8c5677e31a5de107653a} 
+\#define {\bfseries GPIO\+\_\+\+QUALSEL\+\_\+6\+SAMPLES}~2
+\begin{DoxyCompactList}\small\item\em GPIO qualification using 6 samples. \end{DoxyCompactList}\item 
+\Hypertarget{_utils___g_p_i_o_8h_a512a6b2edd71ebbe19e8a4357077e232}\label{_utils___g_p_i_o_8h_a512a6b2edd71ebbe19e8a4357077e232} 
+\#define {\bfseries GPIO\+\_\+\+QUALSEL\+\_\+\+ASYNC}~3
+\begin{DoxyCompactList}\small\item\em Asynchronous GPIO. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}{pin\+To\+Mux}}(pin)~((Uint32) pin/16)
+\begin{DoxyCompactList}\small\item\em Obtain the mux number of a pin. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_utils___g_p_i_o_8h_a6897de5051aa9ff9e25f87bc8e74a9c5}{pin\+To\+Qual}}(pin)~((Uint32) pin/8)
+\begin{DoxyCompactList}\small\item\em Obtain the qual number of a pin. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pin\+To\+Mask\+One\+Bit}}(pin,  value)~((Uint32) (value $<$$<$ (pin \% 32)))
+\begin{DoxyCompactList}\small\item\em Obtain the resigter mask for a value of 1 bit of a given pin. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_utils___g_p_i_o_8h_a76d3c757d3518807b22054ffd59f2d6d}{pin\+To\+Mask\+Two\+Bits}}(pin,  value)~((Uint32) (value $<$$<$ (pin \% 16)\texorpdfstring{$\ast$}{*}2))
+\begin{DoxyCompactList}\small\item\em Obtain the resigter mask for a value of 2 bits of a given pin. \end{DoxyCompactList}\item 
+\#define \mbox{\hyperlink{_utils___g_p_i_o_8h_a9897f286dff69d6e961f5e766aa1049c}{qual\+To\+Mask\+Four\+Bits}}(qual,  value)~((Uint32) (value $<$$<$ (qual \% 4)\texorpdfstring{$\ast$}{*}8))
+\begin{DoxyCompactList}\small\item\em Obtain the resigter mask for a value of 4 bits of a given qual. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+volatile Uint32 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_utils___g_p_i_o_8h_a8e5124461f43580315696b167e167189}{qual\+To\+Ctrl\+Register}} (Uint32 Qual)
+\begin{DoxyCompactList}\small\item\em Get the pointer of the GPx\+CTRL of a given qual. \end{DoxyCompactList}\item 
+volatile Uint32 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_utils___g_p_i_o_8h_a375c62e0a1d03e7206f3ce21e12b69e7}{pin\+To\+QSel\+Register}} (Uint32 pin)
+\begin{DoxyCompactList}\small\item\em Get the pointer of the GPx\+SELx of a given pin. \end{DoxyCompactList}\item 
+volatile Uint32 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_utils___g_p_i_o_8h_acde546d3ab1c27d878accd0fc6ffe7a3}{pin\+To\+Mux\+Register}} (Uint32 pin)
+\begin{DoxyCompactList}\small\item\em Get the pointer of the GPx\+MUXx of a given pin. \end{DoxyCompactList}\item 
+volatile Uint32 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_utils___g_p_i_o_8h_a7e21a7abe824b3a051d409093d875793}{pin\+To\+Dir\+Register}} (Uint32 pin)
+\begin{DoxyCompactList}\small\item\em Get the pointer of the GPx\+DIR of a given pin. \end{DoxyCompactList}\item 
+volatile Uint32 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_utils___g_p_i_o_8h_abd86b36e5a95d5b96e6e00ac576b8c86}{pin\+To\+Pull\+Up\+Resistor\+Register}} (Uint32 pin)
+\begin{DoxyCompactList}\small\item\em Get the pointer of the GPx\+PUD of a given pin. \end{DoxyCompactList}\item 
+volatile Uint32 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_utils___g_p_i_o_8h_a103c144abbd0eb0e8b6dff95912432e6}{pin\+To\+Data\+Register}} (Uint32 pin)
+\begin{DoxyCompactList}\small\item\em Get the pointer of the GPx\+DAT of a given pin. \end{DoxyCompactList}\item 
+volatile Uint32 \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{_utils___g_p_i_o_8h_ac08649c8b162bd794a961749bedad05c}{pin\+To\+Toggle\+Register}} (Uint32 pin)
+\begin{DoxyCompactList}\small\item\em Get the pointer of the GPx\+TOGGLE of a given pin. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a2f60f1087616eb0aa040951f357f933a}{GPIOSet\+Qual\+Sampling\+Period}} (Uint32 Qual, Uint32 Value)
+\begin{DoxyCompactList}\small\item\em Set the qualification sampling period of a given qual, it only apllies if input qualification is activated. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a65e5e6f9b5ce6489ae1828a105295dc9}{GPIOSet\+Pin\+Qualification\+Select}} (Uint32 Pin, Uint32 Value)
+\begin{DoxyCompactList}\small\item\em Set the qualification method of a given pin. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_ae9e52b6200214c140fb3ea087b65af7b}{GPIOSet\+Pin\+Mux}} (Uint32 Pin, Uint32 Value)
+\begin{DoxyCompactList}\small\item\em Set the pin peripheral through the multiplexer. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a7b5a0e3ceeae6d96ab8afd03d6b4d6b8}{GPIOSet\+Pin\+Direction}} (Uint32 Pin, Uint32 Value)
+\begin{DoxyCompactList}\small\item\em Set the pin direction. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a8db28b804649df76599820b94ead8b75}{GPIOSet\+Pin\+Pull\+Up\+Resistor}} (Uint32 Pin, Uint32 Value)
+\begin{DoxyCompactList}\small\item\em Activates or deactivates the pin pullup resistor. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_ab36b7d5abb8ef96c84a64e112f3198d4}{GPIOSet\+Value}} (Uint32 Pin, Uint32 Value)
+\begin{DoxyCompactList}\small\item\em Set the pin output state. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a1a07944a52b0db6b3db7f524f2438203}{GPIOGet\+Value}} (Uint32 Pin)
+\begin{DoxyCompactList}\small\item\em Get the pin state. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a54c99a64d848f5cc84469fc1bac08b34}{GPIOToggle}} (Uint32 Pin)
+\begin{DoxyCompactList}\small\item\em Toggles the pin state. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a46ea5db1c944debd70a04908b6bd77a9}{GPIOSetup}} (Uint32 Pin, Uint32 Peripheral, Uint32 Direction, Uint32 Pull\+Up\+Resistor, Uint32 Qual\+Select, Uint32 Sampling\+Period)
+\begin{DoxyCompactList}\small\item\em Quick general setup of a given pin. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___g_p_i_o_8h_a3fe03eb91c297b16dafc4654417fd1f7}{GPIOSetup\+Simple}} (Uint32 Pin, Uint32 Direction)
+\begin{DoxyCompactList}\small\item\em Quick setup of a simple input/output pin. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains all functions to manipulate GPIOs. 
+
+\begin{DoxyAuthor}{Author}
+Emmanuel David Angarita Quintanilla (\href{mailto:emmanueldavidaq@gmail.com}{\texttt{ emmanueldavidaq@gmail.\+com}}) 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}\label{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToMaskOneBit@{pinToMaskOneBit}}
+\index{pinToMaskOneBit@{pinToMaskOneBit}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToMaskOneBit}{pinToMaskOneBit}}
+{\footnotesize\ttfamily \#define pin\+To\+Mask\+One\+Bit(\begin{DoxyParamCaption}\item[{}]{pin,  }\item[{}]{value }\end{DoxyParamCaption})~((Uint32) (value $<$$<$ (pin \% 32)))}
+
+
+
+Obtain the resigter mask for a value of 1 bit of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+{\em value} & The value to mask. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mask. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a76d3c757d3518807b22054ffd59f2d6d}\label{_utils___g_p_i_o_8h_a76d3c757d3518807b22054ffd59f2d6d} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToMaskTwoBits@{pinToMaskTwoBits}}
+\index{pinToMaskTwoBits@{pinToMaskTwoBits}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToMaskTwoBits}{pinToMaskTwoBits}}
+{\footnotesize\ttfamily \#define pin\+To\+Mask\+Two\+Bits(\begin{DoxyParamCaption}\item[{}]{pin,  }\item[{}]{value }\end{DoxyParamCaption})~((Uint32) (value $<$$<$ (pin \% 16)\texorpdfstring{$\ast$}{*}2))}
+
+
+
+Obtain the resigter mask for a value of 2 bits of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+{\em value} & The value to mask. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mask. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}\label{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToMux@{pinToMux}}
+\index{pinToMux@{pinToMux}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToMux}{pinToMux}}
+{\footnotesize\ttfamily \#define pin\+To\+Mux(\begin{DoxyParamCaption}\item[{}]{pin }\end{DoxyParamCaption})~((Uint32) pin/16)}
+
+
+
+Obtain the mux number of a pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mux number. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a6897de5051aa9ff9e25f87bc8e74a9c5}\label{_utils___g_p_i_o_8h_a6897de5051aa9ff9e25f87bc8e74a9c5} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToQual@{pinToQual}}
+\index{pinToQual@{pinToQual}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToQual}{pinToQual}}
+{\footnotesize\ttfamily \#define pin\+To\+Qual(\begin{DoxyParamCaption}\item[{}]{pin }\end{DoxyParamCaption})~((Uint32) pin/8)}
+
+
+
+Obtain the qual number of a pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The qual number.. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a9897f286dff69d6e961f5e766aa1049c}\label{_utils___g_p_i_o_8h_a9897f286dff69d6e961f5e766aa1049c} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!qualToMaskFourBits@{qualToMaskFourBits}}
+\index{qualToMaskFourBits@{qualToMaskFourBits}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{qualToMaskFourBits}{qualToMaskFourBits}}
+{\footnotesize\ttfamily \#define qual\+To\+Mask\+Four\+Bits(\begin{DoxyParamCaption}\item[{}]{qual,  }\item[{}]{value }\end{DoxyParamCaption})~((Uint32) (value $<$$<$ (qual \% 4)\texorpdfstring{$\ast$}{*}8))}
+
+
+
+Obtain the resigter mask for a value of 4 bits of a given qual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The qual number. \\
+\hline
+{\em value} & The value to mask. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The mask. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_utils___g_p_i_o_8h_a1a07944a52b0db6b3db7f524f2438203}\label{_utils___g_p_i_o_8h_a1a07944a52b0db6b3db7f524f2438203} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOGetValue@{GPIOGetValue}}
+\index{GPIOGetValue@{GPIOGetValue}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOGetValue()}{GPIOGetValue()}}
+{\footnotesize\ttfamily int GPIOGet\+Value (\begin{DoxyParamCaption}\item[{Uint32}]{Pin }\end{DoxyParamCaption})}
+
+
+
+Get the pin state. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_a72520b0ab0d18377eb6a481029d0b01e}{GPIO\+\_\+\+HIGH} 
+
+\doxylink{_utils___g_p_i_o_8h_a088e681cae6659dfd317afdf4d61e302}{GPIO\+\_\+\+LOW} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pin state. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a7b5a0e3ceeae6d96ab8afd03d6b4d6b8}\label{_utils___g_p_i_o_8h_a7b5a0e3ceeae6d96ab8afd03d6b4d6b8} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetPinDirection@{GPIOSetPinDirection}}
+\index{GPIOSetPinDirection@{GPIOSetPinDirection}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetPinDirection()}{GPIOSetPinDirection()}}
+{\footnotesize\ttfamily int GPIOSet\+Pin\+Direction (\begin{DoxyParamCaption}\item[{Uint32}]{Pin,  }\item[{Uint32}]{Value }\end{DoxyParamCaption})}
+
+
+
+Set the pin direction. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_a7be6a0cc9aa65da1d4ee5751b4085853}{GPIO\+\_\+\+INPUT} 
+
+\doxylink{_utils___g_p_i_o_8h_a0db9fe8a278e6ab7c5c6f14fe58e5eb1}{GPIO\+\_\+\+OUTPUT} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+{\em Value} & The value of the direction to be set, it has to be between 0x0 and 0x1. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_ae9e52b6200214c140fb3ea087b65af7b}\label{_utils___g_p_i_o_8h_ae9e52b6200214c140fb3ea087b65af7b} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetPinMux@{GPIOSetPinMux}}
+\index{GPIOSetPinMux@{GPIOSetPinMux}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetPinMux()}{GPIOSetPinMux()}}
+{\footnotesize\ttfamily int GPIOSet\+Pin\+Mux (\begin{DoxyParamCaption}\item[{Uint32}]{Pin,  }\item[{Uint32}]{Value }\end{DoxyParamCaption})}
+
+
+
+Set the pin peripheral through the multiplexer. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_ab5670ba1dff6b60616a763546b0220b0}{GPIO\+\_\+\+PERIPHERAL\+\_\+0} 
+
+\doxylink{_utils___g_p_i_o_8h_a0f8e4e2aff1e4b9917f9e800ce613021}{GPIO\+\_\+\+PERIPHERAL\+\_\+1} 
+
+\doxylink{_utils___g_p_i_o_8h_a4de595b804ed334fa46a155a521225e0}{GPIO\+\_\+\+PERIPHERAL\+\_\+2} 
+
+\doxylink{_utils___g_p_i_o_8h_a90fef06d6270a83332b3129381db1bb9}{GPIO\+\_\+\+PERIPHERAL\+\_\+3} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+{\em Value} & The value of the peripheral to be selected, it has to be between 0x0 and 0x3. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a8db28b804649df76599820b94ead8b75}\label{_utils___g_p_i_o_8h_a8db28b804649df76599820b94ead8b75} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetPinPullUpResistor@{GPIOSetPinPullUpResistor}}
+\index{GPIOSetPinPullUpResistor@{GPIOSetPinPullUpResistor}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetPinPullUpResistor()}{GPIOSetPinPullUpResistor()}}
+{\footnotesize\ttfamily int GPIOSet\+Pin\+Pull\+Up\+Resistor (\begin{DoxyParamCaption}\item[{Uint32}]{Pin,  }\item[{Uint32}]{Value }\end{DoxyParamCaption})}
+
+
+
+Activates or deactivates the pin pullup resistor. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_a1a52d184d8942584057fb0af24aee19c}{GPIO\+\_\+\+PULLUP\+\_\+\+ENABLE} 
+
+\doxylink{_utils___g_p_i_o_8h_a95a8f68268886248f6a40a99457133b2}{GPIO\+\_\+\+PULLUP\+\_\+\+DISABLE} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+{\em Value} & The value of the configuration to be set, it has to be between 0x0 and 0x1. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a65e5e6f9b5ce6489ae1828a105295dc9}\label{_utils___g_p_i_o_8h_a65e5e6f9b5ce6489ae1828a105295dc9} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetPinQualificationSelect@{GPIOSetPinQualificationSelect}}
+\index{GPIOSetPinQualificationSelect@{GPIOSetPinQualificationSelect}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetPinQualificationSelect()}{GPIOSetPinQualificationSelect()}}
+{\footnotesize\ttfamily int GPIOSet\+Pin\+Qualification\+Select (\begin{DoxyParamCaption}\item[{Uint32}]{Pin,  }\item[{Uint32}]{Value }\end{DoxyParamCaption})}
+
+
+
+Set the qualification method of a given pin. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_acd14bdaf9df3bb5743270bb156d1be72}{GPIO\+\_\+\+QUALSEL\+\_\+\+SYNC} 
+
+\doxylink{_utils___g_p_i_o_8h_ad14b8a496ac003d81d7c93d6522439f4}{GPIO\+\_\+\+QUALSEL\+\_\+3\+SAMPLES} 
+
+\doxylink{_utils___g_p_i_o_8h_a9922ad9d1afd8c5677e31a5de107653a}{GPIO\+\_\+\+QUALSEL\+\_\+6\+SAMPLES} 
+
+\doxylink{_utils___g_p_i_o_8h_a512a6b2edd71ebbe19e8a4357077e232}{GPIO\+\_\+\+QUALSEL\+\_\+\+ASYNC} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+{\em Value} & The value to set, it has to be between 0x0 and 0x3. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a2f60f1087616eb0aa040951f357f933a}\label{_utils___g_p_i_o_8h_a2f60f1087616eb0aa040951f357f933a} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetQualSamplingPeriod@{GPIOSetQualSamplingPeriod}}
+\index{GPIOSetQualSamplingPeriod@{GPIOSetQualSamplingPeriod}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetQualSamplingPeriod()}{GPIOSetQualSamplingPeriod()}}
+{\footnotesize\ttfamily int GPIOSet\+Qual\+Sampling\+Period (\begin{DoxyParamCaption}\item[{Uint32}]{Qual,  }\item[{Uint32}]{Value }\end{DoxyParamCaption})}
+
+
+
+Set the qualification sampling period of a given qual, it only apllies if input qualification is activated. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_a65e5e6f9b5ce6489ae1828a105295dc9}{GPIOSet\+Pin\+Qualification\+Select(\+Uint32 Pin, Uint32 Value)} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Qual} & The qual number. \\
+\hline
+{\em Value} & The value of the sampling period, it has to be between 0x00 and 0x\+FF. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a46ea5db1c944debd70a04908b6bd77a9}\label{_utils___g_p_i_o_8h_a46ea5db1c944debd70a04908b6bd77a9} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetup@{GPIOSetup}}
+\index{GPIOSetup@{GPIOSetup}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetup()}{GPIOSetup()}}
+{\footnotesize\ttfamily int GPIOSetup (\begin{DoxyParamCaption}\item[{Uint32}]{Pin,  }\item[{Uint32}]{Peripheral,  }\item[{Uint32}]{Direction,  }\item[{Uint32}]{Pull\+Up\+Resistor,  }\item[{Uint32}]{Qual\+Select,  }\item[{Uint32}]{Sampling\+Period }\end{DoxyParamCaption})}
+
+
+
+Quick general setup of a given pin. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_a2f60f1087616eb0aa040951f357f933a}{GPIOSet\+Qual\+Sampling\+Period(\+Uint32 Qual, Uint32 Value)} 
+
+\doxylink{_utils___g_p_i_o_8h_a65e5e6f9b5ce6489ae1828a105295dc9}{GPIOSet\+Pin\+Qualification\+Select(\+Uint32 Pin, Uint32 Value)} 
+
+\doxylink{_utils___g_p_i_o_8h_ae9e52b6200214c140fb3ea087b65af7b}{GPIOSet\+Pin\+Mux(\+Uint32 Pin, Uint32 Value)} 
+
+\doxylink{_utils___g_p_i_o_8h_a7b5a0e3ceeae6d96ab8afd03d6b4d6b8}{GPIOSet\+Pin\+Direction(\+Uint32 Pin, Uint32 Value)} 
+
+\doxylink{_utils___g_p_i_o_8h_a8db28b804649df76599820b94ead8b75}{GPIOSet\+Pin\+Pull\+Up\+Resistor(\+Uint32 Pin, Uint32 Value)} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+{\em Peripheral} & The value of the peripheral to be selected, it has to be between 0x0 and 0x3. \\
+\hline
+{\em Direction} & The value of the direction to be set, it has to be between 0x0 and 0x1. \\
+\hline
+{\em Pull\+Up\+Resistor} & The value of the configuration to be set, it has to be between 0x0 and 0x1. \\
+\hline
+{\em Qual\+Select} & The value to set, it has to be between 0x0 and 0x3. \\
+\hline
+{\em Sampling\+Period} & The value of the sampling period, it has to be between 0x00 and 0x\+FF. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a3fe03eb91c297b16dafc4654417fd1f7}\label{_utils___g_p_i_o_8h_a3fe03eb91c297b16dafc4654417fd1f7} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetupSimple@{GPIOSetupSimple}}
+\index{GPIOSetupSimple@{GPIOSetupSimple}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetupSimple()}{GPIOSetupSimple()}}
+{\footnotesize\ttfamily int GPIOSetup\+Simple (\begin{DoxyParamCaption}\item[{Uint32}]{Pin,  }\item[{Uint32}]{Direction }\end{DoxyParamCaption})}
+
+
+
+Quick setup of a simple input/output pin. 
+
+This function configures a simple input/output pin with the following assumptions\+:
+\begin{DoxyItemize}
+\item It uses the first peripheral (GPIO).
+\item It disables the pull up resistor.
+\item It syncronizes with SYSCLKOUT.
+\item It has a sampling qualification period of one period of SYSCLKOUT.
+\end{DoxyItemize}
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_a7b5a0e3ceeae6d96ab8afd03d6b4d6b8}{GPIOSet\+Pin\+Direction(\+Uint32 Pin, Uint32 Value)} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+{\em Direction} & The value of the direction to be set, it has to be between 0x0 and 0x1. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. ~\newline
+ 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_ab36b7d5abb8ef96c84a64e112f3198d4}\label{_utils___g_p_i_o_8h_ab36b7d5abb8ef96c84a64e112f3198d4} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOSetValue@{GPIOSetValue}}
+\index{GPIOSetValue@{GPIOSetValue}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOSetValue()}{GPIOSetValue()}}
+{\footnotesize\ttfamily int GPIOSet\+Value (\begin{DoxyParamCaption}\item[{Uint32}]{Pin,  }\item[{Uint32}]{Value }\end{DoxyParamCaption})}
+
+
+
+Set the pin output state. 
+
+\begin{DoxySeeAlso}{See also}
+\doxylink{_utils___g_p_i_o_8h_a72520b0ab0d18377eb6a481029d0b01e}{GPIO\+\_\+\+HIGH} 
+
+\doxylink{_utils___g_p_i_o_8h_a088e681cae6659dfd317afdf4d61e302}{GPIO\+\_\+\+LOW} 
+\end{DoxySeeAlso}
+
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+{\em Value} & The value of the output state to be set, it has to be between 0x0 and 0x1. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a54c99a64d848f5cc84469fc1bac08b34}\label{_utils___g_p_i_o_8h_a54c99a64d848f5cc84469fc1bac08b34} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!GPIOToggle@{GPIOToggle}}
+\index{GPIOToggle@{GPIOToggle}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{GPIOToggle()}{GPIOToggle()}}
+{\footnotesize\ttfamily int GPIOToggle (\begin{DoxyParamCaption}\item[{Uint32}]{Pin }\end{DoxyParamCaption})}
+
+
+
+Toggles the pin state. 
+
+If the pin state was GPIO\+\_\+\+LOW, it will toogle to GPIO\+\_\+\+HIGH and vice versa. 
+\begin{DoxyParams}{Parameters}
+{\em Pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The exit code, if it returns 0, the function terminated succesfully, if instead returns -\/1 the function terminated with errors. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a103c144abbd0eb0e8b6dff95912432e6}\label{_utils___g_p_i_o_8h_a103c144abbd0eb0e8b6dff95912432e6} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToDataRegister@{pinToDataRegister}}
+\index{pinToDataRegister@{pinToDataRegister}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToDataRegister()}{pinToDataRegister()}}
+{\footnotesize\ttfamily volatile Uint32 \texorpdfstring{$\ast$}{*} pin\+To\+Data\+Register (\begin{DoxyParamCaption}\item[{Uint32}]{pin }\end{DoxyParamCaption})}
+
+
+
+Get the pointer of the GPx\+DAT of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the corresponding GPx\+DAT register. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a7e21a7abe824b3a051d409093d875793}\label{_utils___g_p_i_o_8h_a7e21a7abe824b3a051d409093d875793} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToDirRegister@{pinToDirRegister}}
+\index{pinToDirRegister@{pinToDirRegister}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToDirRegister()}{pinToDirRegister()}}
+{\footnotesize\ttfamily volatile Uint32 \texorpdfstring{$\ast$}{*} pin\+To\+Dir\+Register (\begin{DoxyParamCaption}\item[{Uint32}]{pin }\end{DoxyParamCaption})}
+
+
+
+Get the pointer of the GPx\+DIR of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the corresponding GPx\+DIR register. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_acde546d3ab1c27d878accd0fc6ffe7a3}\label{_utils___g_p_i_o_8h_acde546d3ab1c27d878accd0fc6ffe7a3} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToMuxRegister@{pinToMuxRegister}}
+\index{pinToMuxRegister@{pinToMuxRegister}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToMuxRegister()}{pinToMuxRegister()}}
+{\footnotesize\ttfamily volatile Uint32 \texorpdfstring{$\ast$}{*} pin\+To\+Mux\+Register (\begin{DoxyParamCaption}\item[{Uint32}]{pin }\end{DoxyParamCaption})}
+
+
+
+Get the pointer of the GPx\+MUXx of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the corresponding GPx\+MUXx register. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_abd86b36e5a95d5b96e6e00ac576b8c86}\label{_utils___g_p_i_o_8h_abd86b36e5a95d5b96e6e00ac576b8c86} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToPullUpResistorRegister@{pinToPullUpResistorRegister}}
+\index{pinToPullUpResistorRegister@{pinToPullUpResistorRegister}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToPullUpResistorRegister()}{pinToPullUpResistorRegister()}}
+{\footnotesize\ttfamily volatile Uint32 \texorpdfstring{$\ast$}{*} pin\+To\+Pull\+Up\+Resistor\+Register (\begin{DoxyParamCaption}\item[{Uint32}]{pin }\end{DoxyParamCaption})}
+
+
+
+Get the pointer of the GPx\+PUD of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the corresponding GPx\+PUD register. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a375c62e0a1d03e7206f3ce21e12b69e7}\label{_utils___g_p_i_o_8h_a375c62e0a1d03e7206f3ce21e12b69e7} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToQSelRegister@{pinToQSelRegister}}
+\index{pinToQSelRegister@{pinToQSelRegister}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToQSelRegister()}{pinToQSelRegister()}}
+{\footnotesize\ttfamily volatile Uint32 \texorpdfstring{$\ast$}{*} pin\+To\+QSel\+Register (\begin{DoxyParamCaption}\item[{Uint32}]{pin }\end{DoxyParamCaption})}
+
+
+
+Get the pointer of the GPx\+SELx of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the corresponding GPx\+SELx register. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_ac08649c8b162bd794a961749bedad05c}\label{_utils___g_p_i_o_8h_ac08649c8b162bd794a961749bedad05c} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!pinToToggleRegister@{pinToToggleRegister}}
+\index{pinToToggleRegister@{pinToToggleRegister}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{pinToToggleRegister()}{pinToToggleRegister()}}
+{\footnotesize\ttfamily volatile Uint32 \texorpdfstring{$\ast$}{*} pin\+To\+Toggle\+Register (\begin{DoxyParamCaption}\item[{Uint32}]{pin }\end{DoxyParamCaption})}
+
+
+
+Get the pointer of the GPx\+TOGGLE of a given pin. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pin} & The pin number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the corresponding GPx\+TOGGLE register. 
+\end{DoxyReturn}
+\Hypertarget{_utils___g_p_i_o_8h_a8e5124461f43580315696b167e167189}\label{_utils___g_p_i_o_8h_a8e5124461f43580315696b167e167189} 
+\index{Utils\_GPIO.h@{Utils\_GPIO.h}!qualToCtrlRegister@{qualToCtrlRegister}}
+\index{qualToCtrlRegister@{qualToCtrlRegister}!Utils\_GPIO.h@{Utils\_GPIO.h}}
+\doxysubsubsection{\texorpdfstring{qualToCtrlRegister()}{qualToCtrlRegister()}}
+{\footnotesize\ttfamily volatile Uint32 \texorpdfstring{$\ast$}{*} qual\+To\+Ctrl\+Register (\begin{DoxyParamCaption}\item[{Uint32}]{Qual }\end{DoxyParamCaption})}
+
+
+
+Get the pointer of the GPx\+CTRL of a given qual. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Qual} & The qual number. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pointer to the corresponding GPx\+CTRL register. 
+\end{DoxyReturn}

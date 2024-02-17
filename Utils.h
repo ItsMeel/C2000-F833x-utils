@@ -1,8 +1,7 @@
-/*
- * Utils.h
- *
- *  Created on: 13/12/2023
- *      Author: emman
+/**
+ * @file Utils.h
+ * @author Emmanuel David Angarita Quintanilla (emmanueldavidaq@gmail.com)
+ * @brief This file imports all the modules that conforms this library.
  */
 
 #ifndef UTILS_H_
