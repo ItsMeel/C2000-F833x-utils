@@ -1,0 +1,322 @@
+\doxysection{Utils\+\_\+\+GPIO.\+h}
+\hypertarget{_utils___g_p_i_o_8h_source}{}\label{_utils___g_p_i_o_8h_source}\index{src/Utils\_GPIO.h@{src/Utils\_GPIO.h}}
+\mbox{\hyperlink{_utils___g_p_i_o_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#ifndef\ UTILS\_GPIO\_H\_}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#define\ UTILS\_GPIO\_H\_}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}DSP28x\_Project.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{_utils___registers_8h}{Utils\_Registers.h}}"{}}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00023\ \textcolor{preprocessor}{\#define\ GPIO\_HIGH\ 1}}
+\DoxyCodeLine{00024\ \textcolor{preprocessor}{\#define\ GPIO\_LOW\ 0}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00036\ \textcolor{preprocessor}{\#define\ GPIO\_INPUT\ 0}}
+\DoxyCodeLine{00037\ \textcolor{preprocessor}{\#define\ GPIO\_OUTPUT\ 1}}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00049\ \textcolor{preprocessor}{\#define\ GPIO\_PULLUP\_ENABLE\ 0}}
+\DoxyCodeLine{00050\ \textcolor{preprocessor}{\#define\ GPIO\_PULLUP\_DISABLE\ 1}}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00072\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_0\ 0}}
+\DoxyCodeLine{00073\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_1\ 1}}
+\DoxyCodeLine{00074\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_2\ 2}}
+\DoxyCodeLine{00075\ \textcolor{preprocessor}{\#define\ GPIO\_PERIPHERAL\_3\ 3}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00097\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_SYNC\ 0}}
+\DoxyCodeLine{00098\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_3SAMPLES\ 1}}
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_6SAMPLES\ 2}}
+\DoxyCodeLine{00100\ \textcolor{preprocessor}{\#define\ GPIO\_QUALSEL\_ASYNC\ 3}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#define\ pinToMux(pin)\ ((Uint32)\ pin/16)}}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00118\ \textcolor{preprocessor}{\#define\ pinToQual(pin)\ ((Uint32)\ pin/8)}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00128\ \textcolor{preprocessor}{\#define\ pinToMaskOneBit(pin,\ value)\ ((Uint32)\ (value\ <<\ (pin\ \%\ 32)))}}
+\DoxyCodeLine{00129\ }
+\DoxyCodeLine{00138\ \textcolor{preprocessor}{\#define\ pinToMaskTwoBits(pin,\ value)\ ((Uint32)\ (value\ <<\ (pin\ \%\ 16)*2))}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00148\ \textcolor{preprocessor}{\#define\ qualToMaskFourBits(qual,\ value)\ ((Uint32)\ (value\ <<\ (qual\ \%\ 4)*8))}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00157\ \textcolor{keyword}{volatile}\ Uint32*\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a8e5124461f43580315696b167e167189}{qualToCtrlRegister}}(Uint32\ Qual)\{}
+\DoxyCodeLine{00158\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{if}(Qual\ <=\ 3)\{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPACTRL.all;}
+\DoxyCodeLine{00161\ \ \ \ \ \}}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Qual\ >=\ 4\ \&\&\ Qual\ <=\ 7)\{}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBCTRL.all;}
+\DoxyCodeLine{00164\ \ \ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00166\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00167\ \}}
+\DoxyCodeLine{00168\ }
+\DoxyCodeLine{00176\ \textcolor{keyword}{volatile}\ Uint32*\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a375c62e0a1d03e7206f3ce21e12b69e7}{pinToQSelRegister}}(Uint32\ pin)\{}
+\DoxyCodeLine{00177\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00178\ \ \ \ \ Uint32\ Mux\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}{pinToMux}}(pin);}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{switch}\ (Mux)\{}
+\DoxyCodeLine{00180\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAQSEL1.all;}
+\DoxyCodeLine{00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00183\ }
+\DoxyCodeLine{00184\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00185\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAQSEL2.all;}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00187\ }
+\DoxyCodeLine{00188\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00189\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBQSEL1.all;}
+\DoxyCodeLine{00190\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBQSEL2.all;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00195\ \ \ \ \ \}}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00197\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00198\ \}}
+\DoxyCodeLine{00199\ }
+\DoxyCodeLine{00207\ \textcolor{keyword}{volatile}\ Uint32*\ \mbox{\hyperlink{_utils___g_p_i_o_8h_acde546d3ab1c27d878accd0fc6ffe7a3}{pinToMuxRegister}}(Uint32\ pin)\{}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00209\ \ \ \ \ Uint32\ Mux\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}{pinToMux}}(pin);}
+\DoxyCodeLine{00210\ \ \ \ \ \textcolor{keywordflow}{switch}\ (Mux)\{}
+\DoxyCodeLine{00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 1:}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAMUX1.all;}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00214\ }
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 2:}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAMUX2.all;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 3:}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBMUX1.all;}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00222\ }
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 4:}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBMUX2.all;}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00226\ }
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 5:}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCMUX1.all;}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00230\ }
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 6:}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCMUX2.all;}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00234\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00236\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00237\ \}}
+\DoxyCodeLine{00238\ }
+\DoxyCodeLine{00246\ \textcolor{keyword}{volatile}\ Uint32*\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a7e21a7abe824b3a051d409093d875793}{pinToDirRegister}}(Uint32\ pin)\{}
+\DoxyCodeLine{00247\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00248\ \ \ \ \ Uint32\ Mux\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}{pinToMux}}(pin);}
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPADIR.all;}
+\DoxyCodeLine{00251\ \ \ \ \ \}}
+\DoxyCodeLine{00252\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00253\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBDIR.all;}
+\DoxyCodeLine{00254\ \ \ \ \ \}}
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00256\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCDIR.all;}
+\DoxyCodeLine{00257\ \ \ \ \ \}}
+\DoxyCodeLine{00258\ }
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00260\ \}}
+\DoxyCodeLine{00261\ }
+\DoxyCodeLine{00269\ \textcolor{keyword}{volatile}\ Uint32*\ \mbox{\hyperlink{_utils___g_p_i_o_8h_abd86b36e5a95d5b96e6e00ac576b8c86}{pinToPullUpResistorRegister}}(Uint32\ pin)\{}
+\DoxyCodeLine{00270\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00271\ \ \ \ \ Uint32\ Mux\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}{pinToMux}}(pin);}
+\DoxyCodeLine{00272\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPAPUD.all;}
+\DoxyCodeLine{00274\ \ \ \ \ \}}
+\DoxyCodeLine{00275\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00276\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPBPUD.all;}
+\DoxyCodeLine{00277\ \ \ \ \ \}}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioCtrlRegs.GPCPUD.all;}
+\DoxyCodeLine{00280\ \ \ \ \ \}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00283\ \}}
+\DoxyCodeLine{00284\ }
+\DoxyCodeLine{00292\ \textcolor{keyword}{volatile}\ Uint32*\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a103c144abbd0eb0e8b6dff95912432e6}{pinToDataRegister}}(Uint32\ pin)\{}
+\DoxyCodeLine{00293\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00294\ \ \ \ \ Uint32\ Mux\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}{pinToMux}}(pin);}
+\DoxyCodeLine{00295\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00296\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPADAT.all;}
+\DoxyCodeLine{00297\ \ \ \ \ \}}
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPBDAT.all;}
+\DoxyCodeLine{00300\ \ \ \ \ \}}
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPCDAT.all;}
+\DoxyCodeLine{00303\ \ \ \ \ \}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00305\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00306\ \}}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00315\ \textcolor{keyword}{volatile}\ Uint32*\ \mbox{\hyperlink{_utils___g_p_i_o_8h_ac08649c8b162bd794a961749bedad05c}{pinToToggleRegister}}(Uint32\ pin)\{}
+\DoxyCodeLine{00316\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ Output\ =\ 0;}
+\DoxyCodeLine{00317\ \ \ \ \ Uint32\ Mux\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1c3f27ffd9aac68842123fb8bf2bef25}{pinToMux}}(pin);}
+\DoxyCodeLine{00318\ \ \ \ \ \textcolor{keywordflow}{if}(Mux\ ==\ 0\ ||\ Mux\ ==\ 1)\{}
+\DoxyCodeLine{00319\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPATOGGLE.all;}
+\DoxyCodeLine{00320\ \ \ \ \ \}}
+\DoxyCodeLine{00321\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 2\ ||\ Mux\ ==\ 3)\{}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPBTOGGLE.all;}
+\DoxyCodeLine{00323\ \ \ \ \ \}}
+\DoxyCodeLine{00324\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}(Mux\ ==\ 4\ ||\ Mux\ ==\ 5)\{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ Output\ =\ \&GpioDataRegs.GPCTOGGLE.all;}
+\DoxyCodeLine{00326\ \ \ \ \ \}}
+\DoxyCodeLine{00327\ }
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordflow}{return}\ Output;}
+\DoxyCodeLine{00329\ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00339\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a2f60f1087616eb0aa040951f357f933a}{GPIOSetQualSamplingPeriod}}(Uint32\ Qual,\ Uint32\ Value)\{}
+\DoxyCodeLine{00340\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0xFF)\ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a8e5124461f43580315696b167e167189}{qualToCtrlRegister}}(Qual);}
+\DoxyCodeLine{00343\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00344\ }
+\DoxyCodeLine{00345\ \ \ \ \ \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{writeRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a9897f286dff69d6e961f5e766aa1049c}{qualToMaskFourBits}}(Qual,\ 0xFF),\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a9897f286dff69d6e961f5e766aa1049c}{qualToMaskFourBits}}(Qual,\ Value),\ 1);}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00347\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00348\ \}}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00361\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a65e5e6f9b5ce6489ae1828a105295dc9}{GPIOSetPinQualificationSelect}}(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b11)\{}
+\DoxyCodeLine{00363\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00364\ \ \ \ \ \}}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00366\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a375c62e0a1d03e7206f3ce21e12b69e7}{pinToQSelRegister}}(Pin);}
+\DoxyCodeLine{00367\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00368\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00369\ \ \ \ \ \}}
+\DoxyCodeLine{00370\ }
+\DoxyCodeLine{00371\ \ \ \ \ \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{writeRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a76d3c757d3518807b22054ffd59f2d6d}{pinToMaskTwoBits}}(Pin,\ 0b11),\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a76d3c757d3518807b22054ffd59f2d6d}{pinToMaskTwoBits}}(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00372\ }
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00374\ \}}
+\DoxyCodeLine{00375\ }
+\DoxyCodeLine{00387\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_ae9e52b6200214c140fb3ea087b65af7b}{GPIOSetPinMux}}(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b11)\{}
+\DoxyCodeLine{00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00390\ \ \ \ \ \}}
+\DoxyCodeLine{00391\ }
+\DoxyCodeLine{00392\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_acde546d3ab1c27d878accd0fc6ffe7a3}{pinToMuxRegister}}(Pin);}
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00394\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00395\ \ \ \ \ \}}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \ \ \ \ \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{writeRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a76d3c757d3518807b22054ffd59f2d6d}{pinToMaskTwoBits}}(Pin,\ 0b11),\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a76d3c757d3518807b22054ffd59f2d6d}{pinToMaskTwoBits}}(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00398\ }
+\DoxyCodeLine{00399\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00400\ \}}
+\DoxyCodeLine{00401\ }
+\DoxyCodeLine{00411\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a7b5a0e3ceeae6d96ab8afd03d6b4d6b8}{GPIOSetPinDirection}}(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00412\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b1)\{}
+\DoxyCodeLine{00413\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00414\ \ \ \ \ \}}
+\DoxyCodeLine{00415\ }
+\DoxyCodeLine{00416\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a7e21a7abe824b3a051d409093d875793}{pinToDirRegister}}(Pin);}
+\DoxyCodeLine{00417\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00418\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00419\ \ \ \ \ \}}
+\DoxyCodeLine{00420\ }
+\DoxyCodeLine{00421\ \ \ \ \ \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{writeRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ 0b1),\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00422\ }
+\DoxyCodeLine{00423\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00424\ \}}
+\DoxyCodeLine{00425\ }
+\DoxyCodeLine{00435\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a8db28b804649df76599820b94ead8b75}{GPIOSetPinPullUpResistor}}(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00436\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b1)\{}
+\DoxyCodeLine{00437\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00438\ \ \ \ \ \}}
+\DoxyCodeLine{00439\ }
+\DoxyCodeLine{00440\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_abd86b36e5a95d5b96e6e00ac576b8c86}{pinToPullUpResistorRegister}}(Pin);}
+\DoxyCodeLine{00441\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00443\ \ \ \ \ \}}
+\DoxyCodeLine{00444\ }
+\DoxyCodeLine{00445\ \ \ \ \ \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{writeRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ 0b1),\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00446\ }
+\DoxyCodeLine{00447\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00448\ \}}
+\DoxyCodeLine{00449\ }
+\DoxyCodeLine{00459\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_ab36b7d5abb8ef96c84a64e112f3198d4}{GPIOSetValue}}(Uint32\ Pin,\ Uint32\ Value)\{}
+\DoxyCodeLine{00460\ \ \ \ \ \textcolor{keywordflow}{if}(Value\ >\ 0b1)\{}
+\DoxyCodeLine{00461\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00462\ \ \ \ \ \}}
+\DoxyCodeLine{00463\ }
+\DoxyCodeLine{00464\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a103c144abbd0eb0e8b6dff95912432e6}{pinToDataRegister}}(Pin);}
+\DoxyCodeLine{00465\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00467\ \ \ \ \ \}}
+\DoxyCodeLine{00468\ }
+\DoxyCodeLine{00469\ \ \ \ \ \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{writeRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ 0b1),\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ Value),\ 1);}
+\DoxyCodeLine{00470\ }
+\DoxyCodeLine{00471\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00472\ \}}
+\DoxyCodeLine{00473\ }
+\DoxyCodeLine{00482\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1a07944a52b0db6b3db7f524f2438203}{GPIOGetValue}}(Uint32\ Pin)\{}
+\DoxyCodeLine{00483\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a103c144abbd0eb0e8b6dff95912432e6}{pinToDataRegister}}(Pin);}
+\DoxyCodeLine{00484\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00486\ \ \ \ \ \}}
+\DoxyCodeLine{00487\ }
+\DoxyCodeLine{00488\ \ \ \ \ \textcolor{keywordflow}{if}(\mbox{\hyperlink{_utils___registers_8h_adcf90b783866c64b02222721a2a4c457}{readRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ 0b1)))\{}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00490\ \ \ \ \ \}}
+\DoxyCodeLine{00491\ \ \ \ \ \textcolor{keywordflow}{else}\{}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00493\ \ \ \ \ \}}
+\DoxyCodeLine{00494\ \}}
+\DoxyCodeLine{00495\ }
+\DoxyCodeLine{00503\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a54c99a64d848f5cc84469fc1bac08b34}{GPIOToggle}}(Uint32\ Pin)\{}
+\DoxyCodeLine{00504\ \ \ \ \ \textcolor{keyword}{volatile}\ Uint32*\ RegisterAddress\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_ac08649c8b162bd794a961749bedad05c}{pinToToggleRegister}}(Pin);}
+\DoxyCodeLine{00505\ \ \ \ \ \textcolor{keywordflow}{if}(RegisterAddress\ ==\ 0)\{}
+\DoxyCodeLine{00506\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00507\ \ \ \ \ \}}
+\DoxyCodeLine{00508\ }
+\DoxyCodeLine{00509\ \ \ \ \ \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{writeRegister}}(RegisterAddress,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a1e5e3ff69fe556a846f1ac5d645af4a3}{pinToMaskOneBit}}(Pin,\ 0b1),\ 0xFFFFFFFF,\ 1);}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00512\ \}}
+\DoxyCodeLine{00513\ }
+\DoxyCodeLine{00530\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a46ea5db1c944debd70a04908b6bd77a9}{GPIOSetup}}(Uint32\ Pin,\ Uint32\ Peripheral,\ Uint32\ Direction,\ Uint32\ PullUpResistor,\ Uint32\ QualSelect,\ Uint32\ SamplingPeriod)\{}
+\DoxyCodeLine{00531\ \ \ \ \ \textcolor{keywordtype}{int}\ error\ =\ 0;}
+\DoxyCodeLine{00532\ \ \ \ \ Uint32\ Qual\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a6897de5051aa9ff9e25f87bc8e74a9c5}{pinToQual}}(Pin);}
+\DoxyCodeLine{00533\ }
+\DoxyCodeLine{00534\ \ \ \ \ error\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_ae9e52b6200214c140fb3ea087b65af7b}{GPIOSetPinMux}}(Pin,\ Peripheral);}
+\DoxyCodeLine{00535\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00536\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00537\ \ \ \ \ \}}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00539\ \ \ \ \ error\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a7b5a0e3ceeae6d96ab8afd03d6b4d6b8}{GPIOSetPinDirection}}(Pin,\ Direction);}
+\DoxyCodeLine{00540\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00541\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00542\ \ \ \ \ \}}
+\DoxyCodeLine{00543\ }
+\DoxyCodeLine{00544\ \ \ \ \ error\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a8db28b804649df76599820b94ead8b75}{GPIOSetPinPullUpResistor}}(Pin,\ PullUpResistor);}
+\DoxyCodeLine{00545\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00546\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00547\ \ \ \ \ \}}
+\DoxyCodeLine{00548\ }
+\DoxyCodeLine{00549\ \ \ \ \ error\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a65e5e6f9b5ce6489ae1828a105295dc9}{GPIOSetPinQualificationSelect}}(Pin,\ QualSelect);}
+\DoxyCodeLine{00550\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00552\ \ \ \ \ \}}
+\DoxyCodeLine{00553\ }
+\DoxyCodeLine{00554\ \ \ \ \ error\ =\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a2f60f1087616eb0aa040951f357f933a}{GPIOSetQualSamplingPeriod}}(Qual,\ SamplingPeriod);}
+\DoxyCodeLine{00555\ \ \ \ \ \textcolor{keywordflow}{if}(error)\{}
+\DoxyCodeLine{00556\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ -\/1;}
+\DoxyCodeLine{00557\ \ \ \ \ \}}
+\DoxyCodeLine{00558\ }
+\DoxyCodeLine{00559\ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00560\ \}}
+\DoxyCodeLine{00561\ }
+\DoxyCodeLine{00576\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a3fe03eb91c297b16dafc4654417fd1f7}{GPIOSetupSimple}}(Uint32\ Pin,\ Uint32\ Direction)\{}
+\DoxyCodeLine{00577\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a46ea5db1c944debd70a04908b6bd77a9}{GPIOSetup}}(Pin,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_ab5670ba1dff6b60616a763546b0220b0}{GPIO\_PERIPHERAL\_0}},\ Direction,\ \mbox{\hyperlink{_utils___g_p_i_o_8h_a95a8f68268886248f6a40a99457133b2}{GPIO\_PULLUP\_DISABLE}},\ \mbox{\hyperlink{_utils___g_p_i_o_8h_acd14bdaf9df3bb5743270bb156d1be72}{GPIO\_QUALSEL\_SYNC}},\ 0);}
+\DoxyCodeLine{00578\ \}}
+\DoxyCodeLine{00579\ }
+\DoxyCodeLine{00580\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ UTILS\_GPIO\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

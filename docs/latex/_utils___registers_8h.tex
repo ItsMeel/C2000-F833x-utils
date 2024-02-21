@@ -1,0 +1,94 @@
+\doxysection{src/\+Utils\+\_\+\+Registers.h File Reference}
+\hypertarget{_utils___registers_8h}{}\label{_utils___registers_8h}\index{src/Utils\_Registers.h@{src/Utils\_Registers.h}}
+
+
+This file contains all functions to write and read registers.  
+
+
+{\ttfamily \#include "{}DSP28x\+\_\+\+Project.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+volatile Uint32 \mbox{\hyperlink{_utils___registers_8h_adcf90b783866c64b02222721a2a4c457}{read\+Register}} (volatile Uint32 \texorpdfstring{$\ast$}{*}Register\+Address, Uint32 Mask)
+\begin{DoxyCompactList}\small\item\em Read the value of a register through a mask. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}{write\+Register}} (volatile Uint32 \texorpdfstring{$\ast$}{*}Register\+Address, Uint32 Mask, Uint32 Value, Uint32 Protected)
+\begin{DoxyCompactList}\small\item\em Write a masked value to a register. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{_utils___registers_8h_ad3cc527148ba6ae4b28c9cd0b42164bb}{toggle\+Register}} (volatile Uint32 \texorpdfstring{$\ast$}{*}Register\+Address, Uint32 Mask, Uint32 Protected)
+\begin{DoxyCompactList}\small\item\em Toogle the bits of a register indicated by a mask. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This file contains all functions to write and read registers. 
+
+\begin{DoxyAuthor}{Author}
+Emmanuel David Angarita Quintanilla (\href{mailto:emmanueldavidaq@gmail.com}{\texttt{ emmanueldavidaq@gmail.\+com}}) 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_utils___registers_8h_adcf90b783866c64b02222721a2a4c457}\label{_utils___registers_8h_adcf90b783866c64b02222721a2a4c457} 
+\index{Utils\_Registers.h@{Utils\_Registers.h}!readRegister@{readRegister}}
+\index{readRegister@{readRegister}!Utils\_Registers.h@{Utils\_Registers.h}}
+\doxysubsubsection{\texorpdfstring{readRegister()}{readRegister()}}
+{\footnotesize\ttfamily volatile Uint32 read\+Register (\begin{DoxyParamCaption}\item[{volatile Uint32 \texorpdfstring{$\ast$}{*}}]{Register\+Address,  }\item[{Uint32}]{Mask }\end{DoxyParamCaption})}
+
+
+
+Read the value of a register through a mask. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Register\+Address} & The register address to be read. \\
+\hline
+{\em Mask} & The mask \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The masked register value. 
+\end{DoxyReturn}
+\Hypertarget{_utils___registers_8h_ad3cc527148ba6ae4b28c9cd0b42164bb}\label{_utils___registers_8h_ad3cc527148ba6ae4b28c9cd0b42164bb} 
+\index{Utils\_Registers.h@{Utils\_Registers.h}!toggleRegister@{toggleRegister}}
+\index{toggleRegister@{toggleRegister}!Utils\_Registers.h@{Utils\_Registers.h}}
+\doxysubsubsection{\texorpdfstring{toggleRegister()}{toggleRegister()}}
+{\footnotesize\ttfamily int toggle\+Register (\begin{DoxyParamCaption}\item[{volatile Uint32 \texorpdfstring{$\ast$}{*}}]{Register\+Address,  }\item[{Uint32}]{Mask,  }\item[{Uint32}]{Protected }\end{DoxyParamCaption})}
+
+
+
+Toogle the bits of a register indicated by a mask. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Register\+Address} & The register address. \\
+\hline
+{\em Mask} & The mask. \\
+\hline
+{\em Protected} & Indicate the use of EALLOW and EDIS, this should be set to True for protected registers. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Always returns 0. 
+\end{DoxyReturn}
+\Hypertarget{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e}\label{_utils___registers_8h_a2e7692582331967e35694d4045db0c0e} 
+\index{Utils\_Registers.h@{Utils\_Registers.h}!writeRegister@{writeRegister}}
+\index{writeRegister@{writeRegister}!Utils\_Registers.h@{Utils\_Registers.h}}
+\doxysubsubsection{\texorpdfstring{writeRegister()}{writeRegister()}}
+{\footnotesize\ttfamily int write\+Register (\begin{DoxyParamCaption}\item[{volatile Uint32 \texorpdfstring{$\ast$}{*}}]{Register\+Address,  }\item[{Uint32}]{Mask,  }\item[{Uint32}]{Value,  }\item[{Uint32}]{Protected }\end{DoxyParamCaption})}
+
+
+
+Write a masked value to a register. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em Register\+Address} & The register address to be written. \\
+\hline
+{\em Mask} & The mask. \\
+\hline
+{\em Value} & The value. \\
+\hline
+{\em Protected} & Indicate the use of EALLOW and EDIS, this should be set to True for protected registers. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Always returns 0. 
+\end{DoxyReturn}
